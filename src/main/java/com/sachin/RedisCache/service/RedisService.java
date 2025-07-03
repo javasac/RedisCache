@@ -15,6 +15,12 @@ public class RedisService
     @Autowired
     private RedisRepository redisRepository;
 
+    @CacheEvict(value="RedisEmp", allEntries = true)
+    public void clearCache()
+    {
+        System.out.println("All Entries in Cache have been deleted.");
+    }
+
     @Cacheable(value="RedisEmp")
     public List<RedisEmployee> getAll()
     {
@@ -33,11 +39,11 @@ public class RedisService
         redisRepository.deleteById(id);
     }
 
-    @CachePut(value = "RedisEmp", key="#emp.id")
     @Caching(evict = {@CacheEvict(value="RedisEmp", key="#emp.id")})
+    @CachePut(value = "RedisEmp", key="#emp.id")
     public void update(RedisEmployee emp)
     {
-        redisRepository.saveAndFlush(emp);
+        redisRepository.save(emp);
     }
 
     @Cacheable(value="RedisEmp", key="#emp.id")

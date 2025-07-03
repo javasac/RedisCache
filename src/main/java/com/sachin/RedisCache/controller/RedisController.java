@@ -24,6 +24,12 @@ public class RedisController
         return redisService.getAll();
     }
 
+    @DeleteMapping("/dropCache")
+    public void deleteAll()
+    {
+        redisService.clearCache();
+    }
+
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") Long id)
     {
